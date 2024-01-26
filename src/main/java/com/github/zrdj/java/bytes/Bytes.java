@@ -11,11 +11,18 @@ import java.util.Arrays;
 
 
 public interface Bytes {
+    Bytes empty = new Bytes.Of();
+
+    static Bytes of(final byte[] value) {
+        return new Bytes.Of(value);
+    }
     byte[] bytes();
 
     default long length() {
         return bytes().length;
     }
+
+    ByteSize size();
 
     default ByteArrayInputStream toInputStream() {
         return new ByteArrayInputStream(bytes());
@@ -28,15 +35,15 @@ public interface Bytes {
     void destroy();
 
     default Bytes encode(final Codec codec) {
-        return new Bytes.Of(codec.encode(this.bytes()));
+        return Bytes.of(codec.encode(this.bytes()));
     }
 
     default Bytes decode(final Codec codec) {
-        return new Bytes.Of(codec.decode(this.bytes()));
+        return Bytes.of(codec.decode(this.bytes()));
     }
 
     default Bytes hash(final HashingAlgorithm algorithm) {
-        return new Bytes.Of(algorithm.hash(this.bytes()));
+        return Bytes.of(algorithm.hash(this.bytes()));
     }
 
     default Bytes encryptAES(final Bytes key, final Bytes salt) {
@@ -48,11 +55,17 @@ public interface Bytes {
     }
 
     abstract class AbstractBytes implements Bytes {
-
         private final byte[] _value;
+        private final ByteSize _size;
 
         protected AbstractBytes(final byte[] value) {
             _value = value;
+            _size = ByteSize.of(value.length);
+        }
+
+        @Override
+        public ByteSize size() {
+            return _size;
         }
 
         @Override
