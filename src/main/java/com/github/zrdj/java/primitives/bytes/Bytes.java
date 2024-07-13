@@ -6,16 +6,45 @@ import com.github.zrdj.java.primitives.codec.Codec;
 import com.github.zrdj.java.primitives.hashing.HashingAlgorithm;
 
 import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 
 public interface Bytes {
     Bytes empty = new Bytes.Of();
 
+    final class Of extends AbstractBytes {
+
+        public Of(final String value, Charset charset) {
+            this(value.getBytes(charset));
+        }
+
+        public Of(final String value) {
+            this(value.getBytes());
+        }
+
+        public Of(final byte[] value) {
+            super(value);
+        }
+
+        public Of() {
+            super(new byte[0]);
+        }
+    }
+
     static Bytes of(final byte[] value) {
         return new Bytes.Of(value);
     }
+
+    static Bytes empty() {
+        return empty;
+    }
+
+    static Bytes of(String value, Charset charset) {
+        return new Bytes.Of(value, charset);
+    }
+
+
     byte[] bytes();
 
     default long length() {
@@ -42,8 +71,8 @@ public interface Bytes {
         return Bytes.of(codec.decode(this.bytes()));
     }
 
-    default Bytes hash(final HashingAlgorithm algorithm) {
-        return Bytes.of(algorithm.hash(this.bytes()));
+    static Bytes of(String value) {
+        return new Bytes.Of(value);
     }
 
     default Bytes encryptAES(final Bytes key, final Bytes salt) {
@@ -96,19 +125,8 @@ public interface Bytes {
         }
     }
 
-    final class Of extends AbstractBytes {
-
-        public Of(final String value) {
-            this(value.getBytes(StandardCharsets.UTF_8));
-        }
-
-        public Of(final byte[] value) {
-            super(value);
-        }
-
-        public Of() {
-            super(new byte[0]);
-        }
+    default Bytes hash(final HashingAlgorithm algorithm) {
+        return Bytes.of(algorithm.hash(this.bytes()).value());
     }
 
 }

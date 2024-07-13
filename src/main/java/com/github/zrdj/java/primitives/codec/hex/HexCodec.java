@@ -27,6 +27,12 @@ public final class HexCodec implements Codec {
     }
 
     @Override
+    public String encodeToString(final byte[] value) {
+        final StringBuilder builder = internalEncode(value);
+        return builder.toString();
+    }
+
+    @Override
     public byte[] decode(final byte[] value) {
         if (value.length % 2 != 0) {
             throw new IllegalArgumentException("Expected a byte array of even length");

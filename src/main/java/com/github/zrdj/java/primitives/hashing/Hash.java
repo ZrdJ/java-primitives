@@ -1,51 +1,41 @@
 package com.github.zrdj.java.primitives.hashing;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import com.github.zrdj.java.primitives.codec.Codecs;
 
-public enum Hash implements HashingAlgorithm {
-    SHA("SHA"),
-    SHA_224("SHA-224"),
-    SHA_256("SHA-256"),
-    SHA_384("SHA-384"),
-    SHA_512("SHA-512"),
-    SHA_512_224("SHA-512/224"),
-    SHA_512_256("SHA-512/256"),
-    SHA3_224("SHA3-224"),
-    SHA3_256("SHA3-256"),
-    SHA3_384("SHA3-384"),
-    SHA3_512("SHA3-512"),
-    MD2("MD2"),
-    MD5("MD5"),
-    ;
-    private final String _algorithm;
-    private MessageDigest _digest = null;
-    private NoSuchAlgorithmException _error = null;
+public interface Hash {
+    final class Of implements Hash {
+        private final byte[] _value;
+        private final HashAlgorithms _algorithm;
 
-    Hash(final String algorithm) {
-        _algorithm = algorithm;
-        try {
-            _digest = MessageDigest.getInstance(algorithm);
-        } catch (NoSuchAlgorithmException e) {
-            _error = e;
+        public Of(final byte[] value, final HashAlgorithms algorithm) {
+            _value = value;
+            _algorithm = algorithm;
+        }
+
+        public byte[] value() {
+            return _value;
+        }
+
+        @Override
+        public HashingAlgorithm algorithm() {
+            return _algorithm;
         }
     }
 
-    @Override
-    public String algorithm() {
-        return _algorithm;
+    byte[] value();
+
+    HashingAlgorithm algorithm();
+
+    default String toHex() {
+        return Codecs.Hex.encodeToString(value());
     }
 
-    @Override
-    public boolean isAvailable() {
-        return _error == null;
+    default String toBase64() {
+        return Codecs.Base64.encodeToString(value());
     }
 
-    @Override
-    public byte[] hash(final byte[] input) {
-        if (!isAvailable()) {
-            throw new NoSuchHashAlgorithmException(_algorithm, _error);
-        }
-        return _digest.digest(input);
+    default String toBase64Url() {
+        return Codecs.Base64Url.encodeToString(value());
     }
+
 }

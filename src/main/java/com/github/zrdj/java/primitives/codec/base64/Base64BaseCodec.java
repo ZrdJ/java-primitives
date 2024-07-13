@@ -14,6 +14,11 @@ abstract class Base64BaseCodec implements Codec {
     }
 
     @Override
+    public String encodeToString(final byte[] value) {
+        return _encoder.encodeToString(value);
+    }
+
+    @Override
     public final byte[] encode(final byte[] value) {
         return _encoder.encode(value);
     }

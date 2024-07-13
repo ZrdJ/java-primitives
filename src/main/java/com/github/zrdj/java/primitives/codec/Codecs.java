@@ -21,6 +21,11 @@ public enum Codecs implements Codec {
     }
 
     @Override
+    public String encodeToString(final byte[] value) {
+        return _codec.encodeToString(value);
+    }
+
+    @Override
     public byte[] decode(final byte[] value) {
         return _codec.decode(value);
     }

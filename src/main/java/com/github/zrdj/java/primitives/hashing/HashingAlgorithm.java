@@ -5,5 +5,5 @@ public interface HashingAlgorithm {
 
     boolean isAvailable();
 
-    byte[] hash(byte[] input);
+    Hash hash(byte[] input);
 }
