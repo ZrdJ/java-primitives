@@ -27,7 +27,7 @@ Release artifact
 <dependency>
     <groupId>com.github.zrdj</groupId>
     <artifactId>java-primitives</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
 </dependency>
 ```
 
