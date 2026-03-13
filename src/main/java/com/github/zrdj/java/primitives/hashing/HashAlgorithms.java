@@ -19,16 +19,18 @@ public enum HashAlgorithms implements HashingAlgorithm {
     MD5("MD5"),
     ;
     private final String _algorithm;
-    private MessageDigest _digest = null;
-    private NoSuchAlgorithmException _error = null;
+    private final boolean _available;
 
     HashAlgorithms(final String algorithm) {
         _algorithm = algorithm;
+        boolean available;
         try {
-            _digest = MessageDigest.getInstance(algorithm);
+            MessageDigest.getInstance(algorithm);
+            available = true;
         } catch (NoSuchAlgorithmException e) {
-            _error = e;
+            available = false;
         }
+        _available = available;
     }
 
     @Override
@@ -38,14 +40,16 @@ public enum HashAlgorithms implements HashingAlgorithm {
 
     @Override
     public boolean isAvailable() {
-        return _error == null;
+        return _available;
     }
 
     @Override
     public Hash hash(final byte[] input) {
-        if (!isAvailable()) {
-            throw new NoSuchHashAlgorithmException(_algorithm, _error);
+        try {
+            final MessageDigest digest = MessageDigest.getInstance(_algorithm);
+            return new Hash.Of(digest.digest(input), this);
+        } catch (NoSuchAlgorithmException e) {
+            throw new NoSuchHashAlgorithmException(_algorithm, e);
         }
-        return new Hash.Of(_digest.digest(input), this);
     }
 }

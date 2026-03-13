@@ -73,12 +73,12 @@ public interface ByteSize extends Calculatable<ByteSize> {
 
         @Override
         public ByteSize minus(ByteSize other) {
-            return new OfBytes(_value2.plus(other.bytes2()));
+            return new OfBytes(_value2.minus(other.bytes2()));
         }
 
         @Override
         public ByteSize plus(ByteSize other) {
-            return new OfBytes(_value2.minus(other.bytes2()));
+            return new OfBytes(_value2.plus(other.bytes2()));
         }
 
         @Override

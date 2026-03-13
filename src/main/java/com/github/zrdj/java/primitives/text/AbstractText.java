@@ -20,7 +20,7 @@ public abstract class AbstractText implements Text {
         if (this == o) {
             return true;
         }
-        if (o == null || o.getClass().isAssignableFrom(Text.class)) {
+        if (o == null || !Text.class.isAssignableFrom(o.getClass())) {
             return false;
         }
 
