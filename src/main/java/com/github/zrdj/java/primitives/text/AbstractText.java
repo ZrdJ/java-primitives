@@ -38,7 +38,7 @@ public abstract class AbstractText implements Text {
     }
 
     @Override
-    abstract public int hashCode();
+    public abstract int hashCode();
 
-    abstract protected boolean isEqualTo(final String other);
+    protected abstract boolean isEqualTo(final String other);
 }
