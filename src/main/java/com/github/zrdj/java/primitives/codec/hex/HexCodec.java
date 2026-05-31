@@ -3,7 +3,7 @@ package com.github.zrdj.java.primitives.codec.hex;
 import com.github.zrdj.java.primitives.codec.Codec;
 
 public final class HexCodec implements Codec {
-    private final String _hexCharacters = "0123456789abcdef";
+    private static final String _hexCharacters = "0123456789abcdef";
 
     private StringBuilder internalEncode(final byte[] bytes) {
         StringBuilder result = new StringBuilder(2 * bytes.length);

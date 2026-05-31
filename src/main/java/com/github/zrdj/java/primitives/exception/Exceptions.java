@@ -16,14 +16,14 @@ public interface Exceptions {
     }
 
     static <T> FunctionExceptionHandler<T> rethrowingFunction(final Function<Exception, RuntimeException> mapper) {
-        return new RethrowingExceptionHandler<T>(mapper);
+        return new RethrowingExceptionHandler<>(mapper);
     }
 
     static <T> T fallbackFunction(final ExceptionFunction<T> function, final Function<Exception, T> mapper) {
-        return new SwallowingFunctionExceptionHandler<T>(mapper).execute(function);
+        return new SwallowingFunctionExceptionHandler<>(mapper).execute(function);
     }
 
     static <T> FunctionExceptionHandler<T> fallbackingFunction(final Function<Exception, T> mapper) {
-        return new SwallowingFunctionExceptionHandler<T>(mapper);
+        return new SwallowingFunctionExceptionHandler<>(mapper);
     }
 }
