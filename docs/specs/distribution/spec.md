@@ -20,10 +20,10 @@ and tested against the range of JDKs the library targets.
 `.github/workflows/build.yml` must run `mvn -B -ntp verify` for every push
 to any branch, once each for JDK 11, 17 and 21. `pom.xml` declares
 `junit`, `assertj-core` and `org.jusecase:builders` as test-scoped
-dependencies and `src/test` holds 1 JUnit test file, so `verify` both
-compiles/packages the artifact and runs that (thin, single-assertion)
-test. A further push to the same branch must cancel the still-running
-build for the previous push on that branch.
+dependencies and `src/test` holds 14 JUnit test files, so `verify` both
+compiles/packages the artifact and runs that suite. A further push to the
+same branch must cancel the still-running build for the previous push on
+that branch.
 
 #### Scenario: Push to a branch
 
