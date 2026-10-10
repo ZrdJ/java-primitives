@@ -12,7 +12,7 @@ hashing, key derivation), characters, base64/hex codecs, numbers and text — fo
 the JDK's own primitives and wrappers don't cover.
 
 Repo-specific knowledge. What concerns more than this repo lives in the knowledge layer
-of the WS root (`~/workspaces/personal/docs/`).
+of the WS root (`~/workspaces/personal/.docs/`).
 
 ## Folders
 
